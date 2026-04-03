@@ -1,88 +1,93 @@
-# fix-my-dev-error
+# Error Explainer
 
-# 🔧 Error Explainer
+Error Explainer is a small Streamlit app that helps beginners understand common developer errors. Paste an error message into the UI and the app will try to match it against a built-in database using case-insensitive partial keyword matching.
 
-> Paste any developer error → get **Meaning + Fix + Explanation instantly**
+## Project Description
 
----
+The project is structured like a simple real-world Python app:
 
-## 🚀 Demo
-
-### Input:
-
+```text
+.
+|-- app.py
+|-- core/
+|   |-- database.py
+|   |-- formatter.py
+|   `-- matcher.py
+|-- requirements.txt
+|-- README.md
+`-- .gitignore
 ```
-git push rejected (fetch first)
+
+It currently explains these error types:
+
+- `git push rejected` / `failed to push some refs`
+- `module not found`
+- `permission denied`
+
+## Setup Instructions
+
+1. Create a virtual environment:
+
+   ```bash
+   python -m venv .venv
+   ```
+
+2. Activate the virtual environment:
+
+   Mac/Linux:
+
+   ```bash
+   source .venv/bin/activate
+   ```
+
+   Windows:
+
+   ```powershell
+   .venv\Scripts\activate
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Run the app:
+
+   ```bash
+   streamlit run app.py
+   ```
+
+## Example Input and Output
+
+Example input:
+
+```text
+failed to push some refs to origin
 ```
 
-### Output:
+Example output:
 
-```
+```text
 Meaning:
-Your local branch is behind the remote branch.
+Your local branch cannot be pushed because the remote branch has changes that your local copy does not have yet.
 
 Fix:
-git pull --rebase origin main
+Pull the latest remote changes first, resolve any merge or rebase conflicts, and then push again.
 
-Why:
-Someone pushed changes before you.
+Why it happened:
+Someone else pushed new commits, or the remote branch changed after your last pull, so Git blocked the push to avoid overwriting work.
 ```
 
----
+## Matching Logic
 
-## 💡 Why I Built This
+- Matching is case insensitive
+- Phrase matches score higher than loose word overlap
+- Partial keyword overlap is enough to find a useful match
 
-While coding, I kept running into repetitive errors and wasting time searching for fixes.
+## Roadmap
 
-So I built a simple tool that:
-
-* Explains errors instantly
-* Suggests fixes
-* Helps understand *why* they happen
-
----
-
-## ⚙️ Features
-
-* 🔍 Smart keyword-based error matching
-* 🧠 Clear explanations (not just fixes)
-* ⚡ Instant results
-* 🌐 Simple web UI (Streamlit)
-
----
-
-## 🛠️ Tech Stack
-
-* Python
-* Streamlit
-
----
-
-## ▶️ Run Locally
-
-```bash
-git clone https://github.com/your-username/error-explainer.git
-cd error-explainer
-pip install -r requirements.txt
-streamlit run app.py
-```
-
----
-
-## 📌 Roadmap
-
-* [ ] Add more error cases (Git, Python, JS, etc.)
-* [ ] AI-powered fallback (LLM integration)
-* [ ] VS Code extension
-* [ ] Browser extension
-
----
-
-## 🤝 Contributing
-
-Feel free to open issues or submit PRs with new error cases!
-
----
-
-## ⭐ If you found this useful
-
-Give it a star — it helps a lot 🚀
+- Add more Python, Git, and JavaScript errors
+- Add tests for the matcher and formatter
+- Support custom user-defined error entries
+- Add a fallback explanation flow for unknown errors
